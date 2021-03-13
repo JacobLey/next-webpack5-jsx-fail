@@ -109,7 +109,7 @@ module.exports = __webpack_require__("1TCz");
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
-__webpack_require__.d(__webpack_exports__, "default", function() { return /* reexport */ app; });
+__webpack_require__.d(__webpack_exports__, "default", function() { return /* reexport */ app_CustomApp; });
 
 // EXTERNAL MODULE: external "react"
 var external_react_ = __webpack_require__("cDcd");
@@ -133,7 +133,6 @@ class app_CustomApp extends app_js_default.a {
   }
 
 }
-/* harmony default export */ var app = (app_CustomApp);
 // CONCATENATED MODULE: ./pages/_app.js
 
 

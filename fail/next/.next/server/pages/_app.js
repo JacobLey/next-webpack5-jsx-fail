@@ -13,7 +13,7 @@ __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "default": function() { return /* reexport */ app; }
+  "default": function() { return /* reexport */ CustomApp; }
 });
 
 // EXTERNAL MODULE: external "react"
@@ -34,7 +34,6 @@ class CustomApp extends app_js_namespaceObject {
   }
 
 }
-/* harmony default export */ var app = (CustomApp);
 ;// CONCATENATED MODULE: ./pages/_app.js
 
 

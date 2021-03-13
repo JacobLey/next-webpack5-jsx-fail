@@ -45,6 +45,8 @@ info  - Creating an optimized production build
 info  - Compiled successfully
 ```
 but this is inconsistent, and appears to be more of a "warning" than "error".
+
+It also occasionally appears on successful builds.
 )
 
 # Success 1
@@ -66,6 +68,12 @@ The [Success-2](./success-2) package is the exact same as `Fail` with the follow
 The [Success-3](./success-3) package is the exact same as `Fail` with the following exceptions:
 
 1) The `next.config.js` removes `future.webpack5` from the config
+
+# Success 4
+
+The [Success-4](./success-4) package is the exact same as `Fail` with the following exceptions:
+
+1) The `app.cjs` files is written in commonjs format.
 
 # Expectation
 

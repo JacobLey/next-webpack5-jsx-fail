@@ -1,0 +1,8 @@
+{
+  "name": "success-4",
+  "type": "module",
+  "scripts": {
+    "build": "../node_modules/.bin/next build ./next"
+  },
+  "sideEffects": false
+}

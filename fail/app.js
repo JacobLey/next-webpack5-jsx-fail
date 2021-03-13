@@ -1,6 +1,6 @@
 import React from 'react';
 import App from 'next/app.js';
-export class CustomApp extends App {
+export default class CustomApp extends App {
     render() {
         const { Component } = this.props;
         const props = this.props.pageProps
@@ -9,4 +9,3 @@ export class CustomApp extends App {
         );
     }
 }
-export default CustomApp;
