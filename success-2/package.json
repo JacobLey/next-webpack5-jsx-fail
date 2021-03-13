@@ -1,0 +1,7 @@
+{
+  "name": "success-2",
+  "scripts": {
+    "build": "../node_modules/.bin/next build ./next"
+  },
+  "sideEffects": false
+}

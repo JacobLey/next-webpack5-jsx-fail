@@ -1,34 +1,73 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Minimal repo to show Webpack5's incorrect dependency on `.jsx` to properly parse/transpile `import`/`export` syntax, with `"type":"module"`
 
-## Getting Started
+Four "packages" exists `fail`, `success-1`, `success-2`, and `success-3`.
 
-First, run the development server:
+# Fail
 
-```bash
-npm run dev
-# or
-yarn dev
+The main package in focus is the [fail](./fail) package.
+
+It contains an `app.js` which creates a custom extended NextJS App. It also contains a `package.json` which declares a build script and `"type":"module"`.
+
+There is a [next](./fail/next) directory that contains the next entrypoint. This directory has:
+
+* package.json that sets `"type":"commonjs"` (generally required by NextJS)
+* [next.config.js](./fail/next/next.config.js) that links to a common version at package root. This config only (1) extends babel to transpile the extra `app.js` file and (2) use webpack 5
+* [pages](./fail/next/pages) for routes to render
+
+The pages directory has a custom `_app.js` file, which directly exports the custom `app.js` file. There is also an index file which uses SSR to render generic JSX.
+
+Running `npm run build:fail` will result in the following error:
+
+```
+Class extends value #<Object> is not a constructor or null
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The [resulting transpiled server page](./fail/next/.next/server/pages/_app.js) is committed to git for review.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+Note the two lines:
+```
+var app_js_namespaceObject = require("next/app.js");;
+class CustomApp extends app_js_namespaceObject {
+```
+which is triggering the error.
+The actual code should use the `default` export _somehow_ (either explicitly, or through some esModuleInterop)
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+(It also periodically prints
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+info  - Creating an optimized production build .<i> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Node.js doesn't offer a (nice) way to introspect the ESM dependency graph yet.
+<i> Until a full solution is available webpack uses an experimental ESM tracking based on parsing.
+<i> As best effort webpack parses the ESM files to guess dependencies. But this can lead to expensive and incorrect tracking.
+info  - Creating an optimized production build ..<i> [webpack.cache.PackFileCacheStrategy/webpack.FileSystemInfo] Node.js doesn't offer a (nice) way to introspect the ESM dependency graph yet.
+<i> Until a full solution is available webpack uses an experimental ESM tracking based on parsing.
+<i> As best effort webpack parses the ESM files to guess dependencies. But this can lead to expensive and incorrect tracking.
+info  - Creating an optimized production build
+info  - Compiled successfully
+```
+but this is inconsistent, and appears to be more of a "warning" than "error".
+)
 
-## Learn More
+# Success 1
 
-To learn more about Next.js, take a look at the following resources:
+The [Success-1](./success-1) package is the exact same as `Fail` with the following exceptions:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1) The custom `App` has `.jsx` extension.
+2) The `_app.js` page references the custom App file by corresponding `.jsx` extension
+3) Name of package in `package.json` (does not impact anything, but is a difference)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+# Success 2
 
-## Deploy on Vercel
+The [Success-2](./success-2) package is the exact same as `Fail` with the following exceptions:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1) The "root" `package.json` omits `"type":"module"`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# Success 3
+
+The [Success-3](./success-3) package is the exact same as `Fail` with the following exceptions:
+
+1) The `next.config.js` removes `future.webpack5` from the config
+
+# Expectation
+
+The Fail package should work just like Successes 1-3, meaning that `.js` files in `"type":"module"` packages should be properly transpiled via webpack5.
+
