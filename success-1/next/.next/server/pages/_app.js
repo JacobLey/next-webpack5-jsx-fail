@@ -1,51 +1,59 @@
-(function() {
+"use strict";
+(() => {
 var exports = {};
 exports.id = 888;
 exports.ids = [888];
 exports.modules = {
 
-/***/ 557:
-/***/ (function(__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) {
+/***/ 689:
+/***/ ((module) => {
 
-"use strict";
+module.exports = require("react");
+
+/***/ }),
+
+/***/ 997:
+/***/ ((module) => {
+
+module.exports = require("react/jsx-runtime");
+
+/***/ }),
+
+/***/ 346:
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
 // ESM COMPAT FLAG
 __webpack_require__.r(__webpack_exports__);
 
 // EXPORTS
 __webpack_require__.d(__webpack_exports__, {
-  "default": function() { return /* reexport */ CustomApp; }
+  "default": () => (/* reexport */ CustomApp)
 });
 
+// EXTERNAL MODULE: external "react/jsx-runtime"
+var jsx_runtime_ = __webpack_require__(997);
 // EXTERNAL MODULE: external "react"
-var external_react_ = __webpack_require__(297);
-var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_);
+var external_react_ = __webpack_require__(689);
 ;// CONCATENATED MODULE: external "next/app.js"
-var app_js_namespaceObject = require("next/app.js");;
+const app_js_namespaceObject = require("next/app.js");
 var app_js_default = /*#__PURE__*/__webpack_require__.n(app_js_namespaceObject);
 ;// CONCATENATED MODULE: ../app.jsx
-var __jsx = (external_react_default()).createElement;
+
 
 
 class CustomApp extends (app_js_default()) {
-  render() {
-    const {
-      Component
-    } = this.props;
-    const props = this.props.pageProps;
-    return __jsx(Component, props);
-  }
+    render() {
+        const { Component  } = this.props;
+        const props = this.props.pageProps;
+        return(/*#__PURE__*/ jsx_runtime_.jsx(Component, {
+            ...props
+        }));
+    }
+};
 
-}
 ;// CONCATENATED MODULE: ./pages/_app.js
 
 
-/***/ }),
-
-/***/ 297:
-/***/ (function(module) {
-
-"use strict";
-module.exports = require("react");;
 
 /***/ })
 
@@ -53,8 +61,10 @@ module.exports = require("react");;
 ;
 
 // load runtime
-var __webpack_require__ = require("../chunks/webpack-runtime.js");
+var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
-var __webpack_exports__ = __webpack_require__.X([], 557);
+var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
+var __webpack_exports__ = (__webpack_exec__(346));
 module.exports = __webpack_exports__;
+
 })();
