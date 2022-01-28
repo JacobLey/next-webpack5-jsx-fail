@@ -1,9 +1,6 @@
 'use strict';
 
 module.exports = {
-    future: {
-        webpack5: true,
-    },
     webpack: (defaultConfig, opts) => {
 
         defaultConfig.module.rules.push({
